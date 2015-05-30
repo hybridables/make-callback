@@ -28,6 +28,6 @@ module.exports = function makeCallback (fn) {
     } catch (err) {
       return argz.callback(err)
     }
-    return argz.callback(null, res)
+    return argz.callback(null, res ? res : undefined)
   }
 }
