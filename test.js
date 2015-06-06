@@ -9,27 +9,37 @@
 
 'use strict'
 
+var fs = require('fs')
 var test = require('assertit')
 var makeCallback = require('./index')
 
 test('make-callback:', function () {
-  test('should throw TypeError if not a function given', function (done) {
+  test('should throw TypeError "is-async-function expect a function"', function (done) {
     function fixture () {
       makeCallback(12345)
     }
 
     test.throws(fixture, TypeError)
-    test.throws(fixture, /make-callback expect a function/)
+    test.throws(fixture, /is-async-function expect a function/)
     done()
   })
-  test('should throw TypeError when not callback given to async fn', function (done) {
+  test('should throw TypeError "make-callback expect sync function', function (done) {
+    function fixture () {
+      makeCallback(fs.readFile)
+    }
+
+    test.throws(fixture, TypeError)
+    test.throws(fixture, /make-callback expect sync function/)
+    done()
+  })
+  test('should throw TypeError "async `fn` expect a callback"', function (done) {
     function fixture () {
       var JSONParseAsync = makeCallback(JSON.parse)
       JSONParseAsync('{"foo":"bar"}')
     }
 
     test.throws(fixture, TypeError)
-    test.throws(fixture, /async `fn` .* expect a callback/)
+    test.throws(fixture, /async `fn` expect a callback/)
     done()
   })
   test('should pass result to callback', function (done) {

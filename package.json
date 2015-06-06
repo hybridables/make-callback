@@ -10,8 +10,8 @@
     "test": "standard && node test.js"
   },
   "dependencies": {
-    "fn.name": "~1.0.1",
-    "handle-arguments": "~3.0.2"
+    "handle-arguments": "~3.0.2",
+    "is-sync-function": "~1.0.0"
   },
   "devDependencies": {
     "assertit": "^0.1.0"

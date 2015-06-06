@@ -7,19 +7,19 @@
 
 'use strict'
 
-var fnName = require('fn.name')
+var isSyncFn = require('is-sync-function')
 var handleArguments = require('handle-arguments')
 
 module.exports = function makeCallback (fn) {
-  if (typeof fn !== 'function') {
-    throw new TypeError('make-callback expect a function')
+  if (!isSyncFn(fn)) {
+    throw new TypeError('make-callback expect sync function')
   }
+
   return function () {
     var argz = handleArguments(arguments)
 
     if (!argz.callback) {
-      var name = fnName(fn)
-      throw new TypeError('async `fn` (' + name + ') expect a callback')
+      throw new TypeError('async `fn` expect a callback')
     }
 
     var res = false
