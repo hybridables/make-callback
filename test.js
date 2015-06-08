@@ -45,19 +45,38 @@ test('make-callback:', function () {
   test('should pass result to callback', function (done) {
     var JSONParseAsync = makeCallback(JSON.parse)
 
-    JSONParseAsync('{"foo":"bar"}', function (err, json) {
+    JSONParseAsync('{"foo":"bar"}', function (err, res) {
       test.ifError(err)
-      test.deepEqual(json, {foo: 'bar'})
+      test.deepEqual(res, {foo: 'bar'})
       done()
     })
   })
   test('should pass error to callback', function (done) {
     var JSONParseAsync = makeCallback(JSON.parse)
 
-    JSONParseAsync('foo bar baz', function (err, json) {
+    JSONParseAsync('foo bar baz', function (err) {
       test.ok(err)
       test.ifError(!err)
       test.equal(err.message, 'Unexpected token o')
+      done()
+    })
+  })
+  test('should pass contents of file to callback (when readFileSync)', function (done) {
+    var readFile = makeCallback(fs.readFileSync)
+
+    readFile('./package.json', 'utf8', function (err, res) {
+      test.ifError(err)
+      test.ok(res.indexOf('tunnckoCore/make-callback') !== -1)
+      done()
+    })
+  })
+  test('should pass errors to callback (when readFileSync)', function (done) {
+    var readFile = makeCallback(fs.readFileSync)
+
+    readFile('./packdsgfdfgdfgage.json', 'utf8', function (err, res) {
+      test.ifError(!err)
+      test.equal(err.code, 'ENOENT')
+      test.ok(err.message.indexOf('no such file') !== -1)
       done()
     })
   })
