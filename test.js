@@ -80,4 +80,37 @@ test('make-callback:', function () {
       done()
     })
   })
+  test('should support generators (transform generator to callback)', function (done) {
+    function * gen (val) {
+      var a = yield 'a'
+      var b = yield {b: 'b'}
+      var c = yield ['c', 'f']
+      var d = yield 123
+      return [a, b, c, d, val || 'foobar']
+    }
+
+    var genCallback = makeCallback(gen)
+    genCallback(function (err, res) {
+      test.ifError(err)
+      test.equal(res.length, 5)
+      test.deepEqual(res, ['a', {b: 'b'}, ['c', 'f'], 123, 'foobar'])
+      done()
+    })
+  })
+  test('should handle error in callback if generator throws', function (done) {
+    function * gen (val) {
+      yield 'a'
+      yield val
+
+      throw new Error('yeah')
+    }
+
+    var genCallback = makeCallback(gen)
+    genCallback(123, function (err, res) {
+      test.ifError(!err)
+      test.equal(err.message, 'yeah')
+      test.equal(res, undefined)
+      done()
+    })
+  })
 })
