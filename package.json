@@ -1,6 +1,6 @@
 {
   "name": "make-callback",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Make synchronous function or generator to support callback api",
   "repository": "tunnckoCore/make-callback",
   "author": "Charlike Mike Reagent <@tunnckoCore> (http://www.tunnckocore.tk)",
@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "handle-arguments": "~3.0.2",
-    "is-es6-generator": "^1.0.0",
+    "is-es6-generator": "~1.0.0",
     "is-sync-function": "~1.0.0"
   },
   "devDependencies": {
