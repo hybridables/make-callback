@@ -29,6 +29,33 @@ JSONParseAsync('{"foo":"bar"}', function (err, json) {
 })
 ```
 
+You also can make generator that return and yield **anything** (string, array, object, function, thunk, promise or etc) to support callback api
+
+```js
+var fs = require('mz/fs')
+var makeCallback = require('make-callback')
+
+function * gen (val) {
+  var a = yield 'a'
+  var b = yield {b: 'b'}
+  var c = yield ['c', 'f']
+  var d = yield 123
+  var e = yield fs.readFile('./package.json')
+  return [a, b, c, d, e, val || 'foobar']
+}
+
+var genCallback = makeCallback(gen)
+genCallback(function (err, res) {
+  if (err) {
+    return console.error(err)
+  }
+
+  console.log(res)
+  //=> ['a', {b: 'b'}, ['c', 'f'], 123, 'content of package.json',  'foobar']
+  console.log(res.length)
+  //=> 6
+})
+```
 
 ## Contributing
 
