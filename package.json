@@ -1,7 +1,7 @@
 {
   "name": "make-callback",
   "version": "1.0.0",
-  "description": "Make synchronous function to support callback api",
+  "description": "Make synchronous function or generator to support callback api",
   "repository": "tunnckoCore/make-callback",
   "author": "Charlike Mike Reagent <@tunnckoCore> (http://www.tunnckocore.tk)",
   "main": "index.js",
