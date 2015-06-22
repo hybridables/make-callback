@@ -7,6 +7,7 @@
 
 'use strict'
 
+var isGenerator = require('is-es6-generator')
 var isSyncFn = require('is-sync-function')
 var handleArguments = require('handle-arguments')
 
@@ -28,6 +29,25 @@ module.exports = function makeCallback (fn) {
     } catch (err) {
       return argz.callback(err)
     }
-    return argz.callback(null, res ? res : undefined)
+
+    function handle (result) {
+      if (result.done) {
+        return result.value
+      }
+
+      try {
+        return handle(res.next(result.value))
+      } catch (err) {
+        return argz.callback(err)
+      }
+    }
+
+    if (!isGenerator(res)) {
+      argz.callback(null, res)
+      return null
+    }
+    res = handle(res.next())
+
+    return res ? argz.callback(null, res) : null
   }
 }

@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "handle-arguments": "~3.0.2",
+    "is-es6-generator": "^1.0.0",
     "is-sync-function": "~1.0.0"
   },
   "devDependencies": {
